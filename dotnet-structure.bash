@@ -27,8 +27,8 @@ dotnet add src/FinancialGateway.Worker/FinancialGateway.Worker.csproj reference 
 dotnet add src/FinancialGateway.Infrastructure/FinancialGateway.Infrastructure.csproj reference src/FinancialGateway.Core/FinancialGateway.Core.csproj
 
 # 5. Instalacja kluczowych paczek NuGet dla MassTransit, RabbitMQ i EF Core
-dotnet add src/FinancialGateway.Api/FinancialGateway.Api.csproj package MassTransit.RabbitMQ
-dotnet add src/FinancialGateway.Worker/FinancialGateway.Worker.csproj package MassTransit.RabbitMQ
+dotnet add src/FinancialGateway.Api/FinancialGateway.Api.csproj package MassTransit.RabbitMQ --version 8.3.6
+dotnet add src/FinancialGateway.Worker/FinancialGateway.Worker.csproj package MassTransit.RabbitMQ --version 8.3.6
 
 dotnet add src/FinancialGateway.Infrastructure/FinancialGateway.Infrastructure.csproj package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add src/FinancialGateway.Infrastructure/FinancialGateway.Infrastructure.csproj package Npgsql.EntityFrameworkCore.PostgreSQL
