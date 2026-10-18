@@ -1,6 +1,14 @@
+using FinancialGateway.Infrastructure.Persistence;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+	?? throw new InvalidOperationException("Brak connection stringa 'DefaultConnection' w appsettings.json");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+	options.UseNpgsql(connectionString));
 
 // 1. Dodanie obsługi Kontrolerów oraz Swaggera
 builder.Services.AddControllers();

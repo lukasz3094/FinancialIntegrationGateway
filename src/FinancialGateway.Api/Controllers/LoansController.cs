@@ -1,4 +1,5 @@
 using FinancialGateway.Core.Contracts;
+using FinancialGateway.Infrastructure.Filters;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ public class LoansController : ControllerBase
 	}
 
 	[HttpPost]
+	[Idempotent]
 	public async Task<IActionResult> SubmitLoan(
 		[FromBody] SubmitLoanRequest request,
 		[FromHeader(Name = "X-Correlation-ID")] string? correlationId)
