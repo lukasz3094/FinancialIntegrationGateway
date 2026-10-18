@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: financial_rabbitmq
+    ports:
+      - "5672:5672"   # Port AMQP (komunikacja mikroserwisów)
+      - "15672:15672" # Panel zarządzania RabbitMQ Management Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - gateway_network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: financial_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: FinancialGatewayDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gateway_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d FinancialGatewayDb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  gateway_network:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+  postgres_data:
